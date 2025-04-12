@@ -118,7 +118,7 @@ function memoize(func) {
   let called = false;
   let cachedResult;
 
-  return function () {
+  return function a() {
     if (!called) {
       cachedResult = func();
       called = true;
@@ -142,8 +142,20 @@ function memoize(func) {
  * }, 2);
  * retryer() => 2
  */
-function retry(/* func, attempts */) {
-  throw new Error('Not implemented');
+function retry(func, attempts) {
+  return function a() {
+    let lastError;
+
+    for (let i = 0; i < attempts; i += 1) {
+      try {
+        return func();
+      } catch (error) {
+        lastError = error;
+      }
+    }
+
+    throw lastError;
+  };
 }
 
 /**
