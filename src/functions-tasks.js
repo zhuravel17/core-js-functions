@@ -71,7 +71,7 @@ function getArgumentsCount(funcs) {
  *
  */
 function getPowerFunction(exponent) {
-  return function (x) {
+  return function a(x) {
     return x ** exponent;
   };
 }
@@ -89,8 +89,15 @@ function getPowerFunction(exponent) {
  *   getPolynom(8)     => y = 8
  *   getPolynom()      => null
  */
-function getPolynom() {
-  throw new Error('Not implemented');
+function getPolynom(...coeffs) {
+  if (coeffs.length === 0) return null;
+
+  return function a(x) {
+    return coeffs.reduce((acc, coef, index) => {
+      const power = coeffs.length - 1 - index;
+      return acc + coef * x ** power;
+    }, 0);
+  };
 }
 
 /**
